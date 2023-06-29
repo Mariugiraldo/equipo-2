@@ -16,6 +16,7 @@ const Details = () => {
                   const userObj = JSON.parse(savedUser);
                   loggedUserParams = `?userId=${userObj.id}`; 
             }
+            console.log('path params:', loggedUserParams);
             const url = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/petDayCare/detail/${id}${loggedUserParams}`;
             const res = await fetch(url);
             const data = await res.json();

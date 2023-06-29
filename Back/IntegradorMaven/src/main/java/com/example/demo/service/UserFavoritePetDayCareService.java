@@ -44,8 +44,10 @@ public class UserFavoritePetDayCareService {
 
     public PetDayCareDTO detail(Integer id, Integer userId) {
         PetDayCareDTO pdc = petDayCareService.detail(id);
-        var favList = favoriteService.findAllByUser(userId).stream().map(Favorite::getIdFavorite).toList();
-        return determineFavorite(favList, pdc);
+        var isFavorite = favoriteService.findAllByUser(userId).stream().map(Favorite::getPetDayCare)
+                .map(PetDayCare::getId).toList().contains(pdc.getId());
+        pdc.setFavorite(isFavorite);
+        return pdc;
     }
 
     private PetDayCareDTO determineFavorite(List<Integer> favIds, PetDayCareDTO petDayCareDTO){
@@ -54,7 +56,7 @@ public class UserFavoritePetDayCareService {
     }
 
     private List<PetDayCareDTO> setFavoritesToPdcs(List<PetDayCareDTO> pdcList, Integer userId){
-        var favList = favoriteService.findAllByUser(userId).stream().map(Favorite::getIdFavorite).toList();
+        var favList = favoriteService.findAllByUser(userId).stream().map(fav -> fav.getPetDayCare().getId()).toList();
 
         return pdcList.stream().map(pdc -> determineFavorite(favList, pdc)).toList();
     }
