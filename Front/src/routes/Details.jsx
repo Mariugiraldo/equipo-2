@@ -8,9 +8,16 @@ const Details = () => {
       const [details, setDetails] = useState([]);
       const { id } = useParams();
       const [selectedDate, setSelectedDate] = useState(null);
+      const savedUser = localStorage.getItem('userConnected');
 
       const getDetail = async () => {
-            const res = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/petDayCare/detail/${id}` );
+            let loggedUserParams = '';
+            if(savedUser != undefined && savedUser != null){
+                  const userObj = JSON.parse(savedUser);
+                  loggedUserParams = `?userId=${userObj.id}`; 
+            }
+            const url = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/petDayCare/detail/${id}${loggedUserParams}`;
+            const res = await fetch(url);
             const data = await res.json();
             setDetails(data);
       };
@@ -45,6 +52,7 @@ const Details = () => {
                               cancellationPolicy={details.cancellationPolicy}
                               selectedDate={selectedDate}
                               rating={details.rating}
+                              favorite={details.favorite}
                         />
                   </div>
             </>

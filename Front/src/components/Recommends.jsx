@@ -23,9 +23,18 @@ export const Recommends = () => {
     setNoResults(recommends.length === 0);
   }, [recommends]);
 
+  const savedUser = localStorage.getItem('userConnected');
 
   const fetchRecommends = () => {
-    const url = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/petDayCare/all`;
+    
+    let loggedUserParams = '';
+    if(savedUser != undefined && savedUser != null){
+      const userObj = JSON.parse(savedUser);
+      loggedUserParams = `?userId=${userObj.id}`; 
+    }
+    
+    
+    const url = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/petDayCare/all${loggedUserParams}`;
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
@@ -85,6 +94,7 @@ export const Recommends = () => {
             detail={recommend.detail}
             basicPrice={recommend.basicPrice}
             characteristics={recommend.characteristics}
+            favorite={recommend.favorite}
           />
         //</Link>
       ))}

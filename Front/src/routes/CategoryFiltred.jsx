@@ -10,11 +10,20 @@ export const CategoryFiltred = () =>  {
 
   const [category, setCategory] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const savedUser = localStorage.getItem('userConnected');
 
   useEffect(() => {
     const getCategory = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/petDayCare/category/${id}`);
+        let loggedUserParams = '';
+        if(savedUser != undefined && savedUser != null){
+          const userObj = JSON.parse(savedUser);
+          loggedUserParams = `?userId=${userObj.id}`; 
+        }
+        
+        
+        const url = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/petDayCare/category/${id}${loggedUserParams}`;
+        const res = await fetch(url);
         const data = await res.json();
         setCategory(data);
       } catch (error) {
@@ -48,26 +57,26 @@ export const CategoryFiltred = () =>  {
 
   return (
     <div className='space-section'>
-      <div class= 'categories2'>
+      <div className= 'categories2'>
         <div>
           <Link to={"/category/1"}>
-            <Button class="button-2"> Perros </Button>
+            <Button className="button-2"> Perros </Button>
           </Link>
           
         </div>
         <div>
           <Link to={"/category/2"}>
-            <Button class="button-2"> Gatos </Button>
+            <Button className="button-2"> Gatos </Button>
           </Link>
         </div>
         <div>
           <Link to={"/category/3"}>
-            <Button class="button-2">Canarios</Button>
+            <Button className="button-2">Canarios</Button>
           </Link>
         </div>
         <div>
           <Link to={"/category/4"}>
-            <Button class="button-2"> Conejos </Button>
+            <Button className="button-2"> Conejos </Button>
           </Link>
         </div>
       </div>
@@ -92,6 +101,7 @@ export const CategoryFiltred = () =>  {
               address={recommend.address}
               detail={recommend.detail}
               basicPrice={recommend.basicPrice}
+              favorite={recommend.favorite}
             />
           //</Link>
         ))}

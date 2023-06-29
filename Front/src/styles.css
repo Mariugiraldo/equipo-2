@@ -975,6 +975,10 @@ input:hover {
   color: var(--color6);
 }
 
+.favorite-product-icon {
+  margin: -20px !important;
+}
+
 .pinLocation-product {
   cursor: pointer;
 }

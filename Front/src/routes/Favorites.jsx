@@ -4,28 +4,28 @@ import { useContextGlobal } from "../components/utils/global.constext";
 
 export const Favorites = () => {
     const [favorites, setFavorites] = useState([]);
-    const {urlFavorites} = useContextGlobal();
-    
+    const {urlPostProducts} = useContextGlobal();
+    const savedUser = localStorage.getItem('userConnected');
+
     const fetchFavorites = () => {
-        const userConnected = JSON.parse(localStorage.getItem("userConnected"));
-        console.log(userConnected.id, 'funcion ');
-        if (userConnected) {
-            const userId = userConnected.id;
-            console.log(userId, 'if');
-            fetch(`${urlFavorites}${userId}`, {
+        if(savedUser != undefined && savedUser != null){
+            const userObj = JSON.parse(savedUser);
+            const url = `${urlPostProducts}/favorites?userId=${userObj.id}`; 
+            fetch(url, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                },
+                }
             })
-                .then((response) => response.json())
-                .then((data) => {
-                    setFavorites(data);
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-        }
+            .then((response) => response.json())
+            .then((data) => {
+                setFavorites(data);
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        }   
     };
     useEffect(() => {
         fetchFavorites();
@@ -41,22 +41,22 @@ export const Favorites = () => {
                 <h3 className="h3-no-favorites">Aún no se han agregado hospedajes a favoritos.</h3>
             ) : (
                 <div className="render-cards-recommends">
-                    {favorites.map((favorite) => {
-                        const petDayCare = favorite.petDayCare;
+                    {favorites.map((petDayCare) => {
                         return (
                             <CardRecomends
-                                key={petDayCare.id}
-                                number={petDayCare.id}
-                                type={petDayCare.type.title}
-                                name={petDayCare.name}
-                                image={petDayCare.images}
-                                capacity={petDayCare.capacity}
-                                rating={petDayCare.average}
-                                city={petDayCare.city.name}
-                                address={petDayCare.address}
-                                detail={petDayCare.detail}
-                                basicPrice={petDayCare.basicPrice}
-                                characteristics={petDayCare.characteristics}
+                                key={petDayCare?.id}
+                                number={petDayCare?.id}
+                                type={petDayCare?.type.title}
+                                name={petDayCare?.name}
+                                image={petDayCare?.images}
+                                capacity={petDayCare?.capacity}
+                                rating={petDayCare?.average}
+                                city={petDayCare?.city.name}
+                                address={petDayCare?.address}
+                                detail={petDayCare?.detail}
+                                basicPrice={petDayCare?.basicPrice}
+                                characteristics={petDayCare?.characteristics}
+                                favorite={petDayCare?.favorite}
                             />
                         );
                     })}

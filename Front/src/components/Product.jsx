@@ -9,8 +9,9 @@ import { CalendarDetail } from './CalendarDetail';
 import { Rating, Typography, Grid } from '@mui/material';
 import { useContextGlobal } from './utils/global.constext';
 import PageModalWindows from './PageModalWindows';
+import FavoriteIcon from './FavoriteIcon';
 
-export const Product = ({ id, name, type, capacity, city, address, detail, image, basicPrice, features, houseRules, healthAndSecurity, cancellationPolicy, rating }) => {
+export const Product = ({ id, name, type, capacity, city, address, detail, image, basicPrice, features, houseRules, healthAndSecurity, cancellationPolicy, rating, favorite }) => {
 
     const navigate = useNavigate()
     const [isModalOpen, setModalOpen] = useState(false);
@@ -101,28 +102,7 @@ export const Product = ({ id, name, type, capacity, city, address, detail, image
                     </span>
                 </ScrollLink>
                 <div className='icons-product-container'>
-                    <div className='favorite-product-container'>
-                        {isFavorite
-                            ?
-                            (
-                                <FontAwesomeIcon
-                                    icon={faHeart} style={{ color: "#a278f0", }}
-                                    className=''
-                                    onClick={handleFavorite}
-                                    size='xl'
-                                />
-                            )
-                            :
-                            (
-                                <FontAwesomeIcon
-                                    icon={fasHeart} style={{ color: "#a278f0", }}
-                                    className=''
-                                    onClick={handleFavorite}
-                                    size='xl'
-                                />
-                            )
-                        }
-                    </div>
+                    <FavoriteIcon pdcId={id} initialState={favorite} clazz={'favorite-product-icon'}/>
                     <PageModalWindows name={name} basicPrice={basicPrice} city={city.name} address={address} image={image[0]}>Compartir</PageModalWindows>
                     <a onClick={() => navigate(-1)}>
                         <FontAwesomeIcon
