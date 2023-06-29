@@ -1,7 +1,5 @@
 package com.example.demo.DTO;
 
-import com.example.demo.entity.User;
-
 public class FavoriteDTO {
     private Integer idFavorite;
     private Integer userId;

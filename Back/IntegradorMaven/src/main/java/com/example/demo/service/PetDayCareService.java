@@ -248,38 +248,6 @@ public class PetDayCareService {
 
     }
 
-    public String favorite(Integer id){
-
-        Optional<PetDayCare> petDayCareOpt = this.repository.findById(id);
-
-        if(petDayCareOpt.isPresent()) {
-            if(petDayCareOpt.get().isFavorite() == false){
-            petDayCareOpt.get().setFavorite(true);
-            }else{
-             petDayCareOpt.get().setFavorite(false);
-            }
-
-            PetDayCare petDayCare = new PetDayCare(
-                    petDayCareOpt.get().getName(),
-                    petDayCareOpt.get().getType(),
-                    petDayCareOpt.get().getCapacity(),
-                    petDayCareOpt.get().getCity(),
-                    petDayCareOpt.get().getAddress(),
-                    petDayCareOpt.get().getDetail(),
-                    petDayCareOpt.get().getImages(),
-                    petDayCareOpt.get().getCharacteristics(),
-                    petDayCareOpt.get().getBasicPrice(),
-                    petDayCareOpt.get().getHouseRules(),
-                    petDayCareOpt.get().getHealthAndSecurity(),
-                    petDayCareOpt.get().getCancellationPolicy(),
-                    petDayCareOpt.get().isFavorite()
-            );
-            repository.save(petDayCare);
-        }
-        return "El estado de producto en favoritos es: "+ petDayCareOpt.get().isFavorite() ;
-
-    }
-
     public List<PetDayCareDTO> findAll(){
         return repository.findAll().stream()
                 .map(this::mapEntityToDto).toList();

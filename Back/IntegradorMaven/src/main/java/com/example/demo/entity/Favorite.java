@@ -2,6 +2,8 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "favorite")
 public class Favorite {
@@ -46,5 +48,18 @@ public class Favorite {
 
     public void setPetDayCare(PetDayCare petDayCare) {
         this.petDayCare = petDayCare;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Favorite favorite = (Favorite) o;
+        return user.getId().equals(favorite.user.getId()) && petDayCare.getId().equals(favorite.petDayCare.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user.getId(), petDayCare.getId());
     }
 }

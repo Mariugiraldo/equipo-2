@@ -230,10 +230,8 @@ public class DataLoaderComponent {
         List<FavoriteDTO> favoriteDTOS = JsonHelper.readJsonFromFile("favorite_data.json", new TypeReference<>() {
         });
         favoriteDTOS.forEach(favoriteDTO -> {
-            Optional<Favorite> booking1 = favoriteService.findByID(favoriteDTO.getIdFavorite());
-            if (booking1.isEmpty()) {
-                favoriteService.save(favoriteDTO);
-            } else {
+            boolean created = favoriteService.save(favoriteDTO);
+            if(!created){
                 System.out.println("favorite data with id " + favoriteDTO.getIdFavorite() + " already exists, skipping creation...");
             }
         });

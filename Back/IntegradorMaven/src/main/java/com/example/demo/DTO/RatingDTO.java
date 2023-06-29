@@ -1,11 +1,14 @@
 package com.example.demo.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 public class RatingDTO {
     private Integer petDayCareId;
     private Integer amountOfReviews;
     private Double average;
+    @JsonIgnore
     private List<BookingScoreReviewDTO> ratings;
 
     public RatingDTO() {
